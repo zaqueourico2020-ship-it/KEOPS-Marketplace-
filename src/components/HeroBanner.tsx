@@ -2,29 +2,49 @@ export default function HeroBanner() {
   return (
     <section
       style={{
-        background: "linear-gradient(135deg,#6D28D9,#8B5CF6)",
-        color: "white",
-        padding: "24px",
-        borderRadius: "16px",
-        marginTop: "16px",
+        margin: "20px",
+        borderRadius: "24px",
+        padding: "40px 24px",
+        background:
+          "linear-gradient(135deg, #7c3aed 0%, #4f46e5 100%)",
+        color: "#fff",
         textAlign: "center",
+        boxShadow: "0 20px 40px rgba(124,58,237,.35)",
       }}
     >
-      <h2>Bem-vindo ao KEOPS</h2>
-      <p>O marketplace inteligente para comprar e vender.</p>
+      <h2
+        style={{
+          fontSize: "32px",
+          marginBottom: "12px",
+          fontWeight: "700",
+        }}
+      >
+        Bem-vindo ao KEOPS Marketplace
+      </h2>
+
+      <p
+        style={{
+          fontSize: "18px",
+          opacity: 0.9,
+          marginBottom: "24px",
+        }}
+      >
+        Compre, venda e descubra milhares de produtos em um só lugar.
+      </p>
 
       <button
         style={{
-          marginTop: "16px",
-          padding: "12px 24px",
-          borderRadius: "10px",
+          background: "#fff",
+          color: "#7c3aed",
           border: "none",
-          cursor: "pointer",
+          padding: "14px 28px",
+          borderRadius: "14px",
           fontWeight: "bold",
+          cursor: "pointer",
         }}
       >
-        Explorar Agora
+        Explorar Produtos
       </button>
     </section>
   );
-            }
+}
