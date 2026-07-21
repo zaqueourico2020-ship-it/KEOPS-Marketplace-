@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { createProduct } from "@/services/productService";
 
 export default function ProductForm() {
   const [product, setProduct] = useState({
@@ -15,7 +16,9 @@ export default function ProductForm() {
   });
 
   function handleChange(
-    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>
+    e: React.ChangeEvent<
+      HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement
+    >
   ) {
     setProduct({
       ...product,
@@ -23,12 +26,49 @@ export default function ProductForm() {
     });
   }
 
-  function handleSubmit(e: React.FormEvent) {
+  async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
 
-    console.log(product);
+    try {
+      await createProduct({
+        sellerId: "admin",
+        name: product.name,
+        slug: product.name.toLowerCase().replace(/\s+/g, "-"),
+        description: product.description,
+        shortDescription: "",
+        categoryId: product.category,
+        brand: product.brand,
+        sku: product.sku,
+        barcode: "",
+        images: [],
+        video: "",
+        price: Number(product.price),
+        promotionalPrice: Number(product.promotionalPrice) || 0,
+        stock: Number(product.stock),
+        featured: false,
+        active: true,
+        views: 0,
+        sales: 0,
+        rating: 0,
+        reviews: 0,
+      });
 
-    alert("Produto pronto para ser salvo!");
+      alert("Produto cadastrado com sucesso!");
+
+      setProduct({
+        name: "",
+        description: "",
+        brand: "",
+        category: "",
+        price: "",
+        promotionalPrice: "",
+        stock: "",
+        sku: "",
+      });
+    } catch (error) {
+      console.error(error);
+      alert("Erro ao cadastrar produto.");
+    }
   }
 
   return (
