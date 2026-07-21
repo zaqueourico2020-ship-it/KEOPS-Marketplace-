@@ -156,7 +156,27 @@ export default function ProductPage() {
     <span>Categoria</span>
     <strong>{product.categoryId || "Marketplace"}</strong>
   </div>
+<div className="mt-8 flex flex-col gap-4">
 
+  <button
+    className="w-full rounded-2xl bg-purple-600 py-4 text-lg font-bold text-white hover:bg-purple-700 transition"
+  >
+    Comprar Agora
+  </button>
+
+  <button
+    className="w-full rounded-2xl border-2 border-purple-600 py-4 text-lg font-bold text-purple-600 hover:bg-purple-50 transition"
+  >
+    Adicionar ao Carrinho
+  </button>
+
+  <button
+    className="w-full rounded-2xl border py-4 text-lg hover:bg-gray-100 transition"
+  >
+    ❤️ Favoritar
+  </button>
+
+</div>
 </div>
     </div>
 
