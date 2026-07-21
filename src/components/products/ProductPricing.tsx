@@ -1,28 +1,23 @@
 "use client";
 
-import { useState } from "react";
+import { useProduct } from "@/context/ProductContext";
 
 export default function ProductPricing() {
-  const [pricing, setPricing] = useState({
-    cost: "",
-    price: "",
-    promotionalPrice: "",
-    commission: "12",
-  });
+  const { product, setProduct } = useProduct();
 
   function handleChange(e: React.ChangeEvent<HTMLInputElement>) {
-    setPricing({
-      ...pricing,
-      [e.target.name]: e.target.value,
-    });
+    const { name, value } = e.target;
+
+    setProduct((prev) => ({
+      ...prev,
+      [name]: Number(value),
+    }));
   }
 
-  const cost = Number(pricing.cost) || 0;
-  const price = Number(pricing.price) || 0;
-  const commission = Number(pricing.commission) || 0;
-
-  const commissionValue = (price * commission) / 100;
-  const estimatedProfit = price - cost - commissionValue;
+  const commission = 12;
+  const commissionValue = (product.price * commission) / 100;
+  const estimatedProfit =
+    product.price - product.cost - commissionValue;
 
   return (
     <div className="bg-gray-900 border border-gray-800 rounded-2xl p-6 space-y-5">
@@ -32,43 +27,39 @@ export default function ProductPricing() {
 
       <input
         className="w-full p-3 rounded-xl bg-gray-800 text-white"
-        placeholder="Custo do produto"
         type="number"
         name="cost"
-        value={pricing.cost}
+        placeholder="Custo do produto"
+        value={product.cost}
         onChange={handleChange}
       />
 
       <input
         className="w-full p-3 rounded-xl bg-gray-800 text-white"
-        placeholder="Preço de venda"
         type="number"
         name="price"
-        value={pricing.price}
+        placeholder="Preço de venda"
+        value={product.price}
         onChange={handleChange}
       />
 
       <input
         className="w-full p-3 rounded-xl bg-gray-800 text-white"
-        placeholder="Preço promocional"
         type="number"
         name="promotionalPrice"
-        value={pricing.promotionalPrice}
-        onChange={handleChange}
-      />
-
-      <input
-        className="w-full p-3 rounded-xl bg-gray-800 text-white"
-        placeholder="Comissão (%)"
-        type="number"
-        name="commission"
-        value={pricing.commission}
+        placeholder="Preço promocional"
+        value={product.promotionalPrice}
         onChange={handleChange}
       />
 
       <div className="bg-gray-800 rounded-xl p-4 space-y-2 text-white">
-        <p>Comissão: <strong>R$ {commissionValue.toFixed(2)}</strong></p>
-        <p>Lucro estimado: <strong>R$ {estimatedProfit.toFixed(2)}</strong></p>
+        <p>
+          Comissão (12%): <strong>R$ {commissionValue.toFixed(2)}</strong>
+        </p>
+
+        <p>
+          Lucro estimado: <strong>R$ {estimatedProfit.toFixed(2)}</strong>
+        </p>
       </div>
     </div>
   );
