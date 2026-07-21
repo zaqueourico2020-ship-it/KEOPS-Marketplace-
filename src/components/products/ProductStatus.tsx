@@ -1,20 +1,14 @@
 "use client";
 
-import { useState } from "react";
+import { useProduct } from "@/context/ProductContext";
 
 export default function ProductStatus() {
-  const [status, setStatus] = useState({
-    active: true,
-    featured: false,
-    newProduct: true,
-    dailyOffer: false,
-    available: true,
-  });
+  const { product, setProduct } = useProduct();
 
   function handleChange(e: React.ChangeEvent<HTMLInputElement>) {
     const { name, checked } = e.target;
 
-    setStatus((prev) => ({
+    setProduct((prev) => ({
       ...prev,
       [name]: checked,
     }));
@@ -27,51 +21,21 @@ export default function ProductStatus() {
       </h2>
 
       <label className="flex items-center justify-between text-white">
-        <span>Produto ativo</span>
+        <span>Produto Ativo</span>
         <input
           type="checkbox"
           name="active"
-          checked={status.active}
+          checked={product.active}
           onChange={handleChange}
         />
       </label>
 
       <label className="flex items-center justify-between text-white">
-        <span>Produto em destaque</span>
+        <span>Produto em Destaque</span>
         <input
           type="checkbox"
           name="featured"
-          checked={status.featured}
-          onChange={handleChange}
-        />
-      </label>
-
-      <label className="flex items-center justify-between text-white">
-        <span>Produto novo</span>
-        <input
-          type="checkbox"
-          name="newProduct"
-          checked={status.newProduct}
-          onChange={handleChange}
-        />
-      </label>
-
-      <label className="flex items-center justify-between text-white">
-        <span>Oferta do dia</span>
-        <input
-          type="checkbox"
-          name="dailyOffer"
-          checked={status.dailyOffer}
-          onChange={handleChange}
-        />
-      </label>
-
-      <label className="flex items-center justify-between text-white">
-        <span>Disponível para venda</span>
-        <input
-          type="checkbox"
-          name="available"
-          checked={status.available}
+          checked={product.featured}
           onChange={handleChange}
         />
       </label>
