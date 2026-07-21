@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { useParams } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
 
 import AddToCartButton from "@/components/cart/AddToCartButton";
 import { getProductById } from "@/services/productService";
@@ -15,7 +15,7 @@ export default function ProductPage() {
   const [product, setProduct] = useState<any>(null);
   const [selectedImage, setSelectedImage] = useState("");
   const [quantity, setQuantity] = useState(1);
-
+const router = useRouter();
   useEffect(() => {
     loadProduct();
   }, []);
@@ -158,17 +158,19 @@ export default function ProductPage() {
   </div>
 <div className="mt-8 flex flex-col gap-4">
 
-  <button
-    className="w-full rounded-2xl bg-purple-600 py-4 text-lg font-bold text-white hover:bg-purple-700 transition"
-  >
-    Comprar Agora
-  </button>
+<button
+  onClick={() => {
+    router.push("/checkout");
+  }}
+  className="w-full rounded-2xl bg-purple-600 py-4 text-lg font-bold text-white hover:bg-purple-700 transition"
+>
 
-  <button
-    className="w-full rounded-2xl border-2 border-purple-600 py-4 text-lg font-bold text-purple-600 hover:bg-purple-50 transition"
-  >
-    Adicionar ao Carrinho
-  </button>
+ <AddToCartButton
+  product={{
+    ...product,
+    quantity,
+  }}
+/>
 
   <button
     className="w-full rounded-2xl border py-4 text-lg hover:bg-gray-100 transition"
