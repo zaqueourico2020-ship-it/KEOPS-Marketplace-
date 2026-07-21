@@ -11,6 +11,7 @@ import ProductSeo from "./ProductSeo";
 import ProductVariants from "./ProductVariants";
 import ProductStatus from "./ProductStatus";
 import ProductProgress from "./ProductProgress";
+import ProductPreview from "./ProductPreview";
 
 const steps = [
   "Informações",
@@ -35,6 +36,29 @@ export default function ProductWizard() {
   function previousStep() {
     if (step > 0) {
       setStep(step - 1);
+    }
+  }
+
+  function renderStep() {
+    switch (step) {
+      case 0:
+        return <ProductForm />;
+      case 1:
+        return <ProductImages />;
+      case 2:
+        return <ProductPricing />;
+      case 3:
+        return <ProductInventory />;
+      case 4:
+        return <ProductShipping />;
+      case 5:
+        return <ProductSeo />;
+      case 6:
+        return <ProductVariants />;
+      case 7:
+        return <ProductStatus />;
+      default:
+        return null;
     }
   }
 
@@ -64,14 +88,17 @@ export default function ProductWizard() {
         ))}
       </div>
 
-      {step === 0 && <ProductForm />}
-      {step === 1 && <ProductImages />}
-      {step === 2 && <ProductPricing />}
-      {step === 3 && <ProductInventory />}
-      {step === 4 && <ProductShipping />}
-      {step === 5 && <ProductSeo />}
-      {step === 6 && <ProductVariants />}
-      {step === 7 && <ProductStatus />}
+      <div className="grid grid-cols-1 xl:grid-cols-3 gap-8">
+
+        <div className="xl:col-span-2">
+          {renderStep()}
+        </div>
+
+        <div className="xl:sticky xl:top-6 h-fit">
+          <ProductPreview />
+        </div>
+
+      </div>
 
       <div className="flex justify-between">
         <button
@@ -92,6 +119,7 @@ export default function ProductWizard() {
           {step === steps.length - 1 ? "Finalizado" : "Próximo"}
         </button>
       </div>
+
     </div>
   );
 }
