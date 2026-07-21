@@ -1,13 +1,5 @@
 import { ProductProvider } from "@/context/ProductContext";
-
-import ProductForm from "@/components/products/ProductForm";
-import ProductImages from "@/components/products/ProductImages";
-import ProductPricing from "@/components/products/ProductPricing";
-import ProductInventory from "@/components/products/ProductInventory";
-import ProductShipping from "@/components/products/ProductShipping";
-import ProductSeo from "@/components/products/ProductSeo";
-import ProductVariants from "@/components/products/ProductVariants";
-import ProductStatus from "@/components/products/ProductStatus";
+import ProductWizard from "@/components/products/ProductWizard";
 import ProductList from "@/components/products/ProductList";
 
 export default function AdminProductsPage() {
@@ -26,21 +18,7 @@ export default function AdminProductsPage() {
             </p>
           </div>
 
-          <ProductImages />
-
-          <ProductForm />
-
-          <ProductPricing />
-
-          <ProductInventory />
-
-          <ProductShipping />
-
-          <ProductVariants />
-
-          <ProductSeo />
-
-          <ProductStatus />
+          <ProductWizard />
 
           <ProductList />
 
