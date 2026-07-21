@@ -1,38 +1,41 @@
 "use client";
 
-import { useState } from "react";
 import { uploadProductImage } from "@/services/storageService";
+import { useProduct } from "@/context/ProductContext";
 
 export default function ProductImages() {
-  const [images, setImages] = useState<string[]>([]);
-  const [uploading, setUploading] = useState(false);
+  const { product, setProduct } = useProduct();
 
-  async function handleImage(event: React.ChangeEvent<HTMLInputElement>) {
+  async function handleImage(
+    event: React.ChangeEvent<HTMLInputElement>
+  ) {
     const files = event.target.files;
 
     if (!files) return;
-
-    setUploading(true);
 
     try {
       const uploadedImages: string[] = [];
 
       for (const file of Array.from(files)) {
-        const imageUrl = await uploadProductImage(file);
-        uploadedImages.push(imageUrl);
+        const url = await uploadProductImage(file);
+        uploadedImages.push(url);
       }
 
-      setImages((prev) => [...prev, ...uploadedImages]);
+      setProduct((prev) => ({
+        ...prev,
+        images: [...prev.images, ...uploadedImages],
+      }));
     } catch (error) {
       console.error(error);
       alert("Erro ao enviar imagem.");
-    } finally {
-      setUploading(false);
     }
   }
 
   function removeImage(index: number) {
-    setImages((prev) => prev.filter((_, i) => i !== index));
+    setProduct((prev) => ({
+      ...prev,
+      images: prev.images.filter((_, i) => i !== index),
+    }));
   }
 
   return (
@@ -46,18 +49,11 @@ export default function ProductImages() {
         multiple
         accept="image/*"
         onChange={handleImage}
-        disabled={uploading}
         className="mb-6 text-white"
       />
 
-      {uploading && (
-        <p className="text-purple-400 mb-4">
-          Enviando imagens...
-        </p>
-      )}
-
       <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-        {images.map((image, index) => (
+        {product.images.map((image, index) => (
           <div key={index} className="relative">
             <img
               src={image}
@@ -68,7 +64,7 @@ export default function ProductImages() {
             <button
               type="button"
               onClick={() => removeImage(index)}
-              className="absolute top-2 right-2 bg-red-600 hover:bg-red-700 text-white rounded-full w-7 h-7"
+              className="absolute top-2 right-2 bg-red-600 hover:bg-red-700 text-white w-7 h-7 rounded-full"
             >
               ✕
             </button>
