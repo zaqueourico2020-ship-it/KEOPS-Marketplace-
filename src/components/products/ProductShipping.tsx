@@ -1,29 +1,22 @@
 "use client";
 
-import { useState } from "react";
+import { useProduct } from "@/context/ProductContext";
 
 export default function ProductShipping() {
-  const [shipping, setShipping] = useState({
-    weight: "",
-    height: "",
-    width: "",
-    length: "",
-    originZipCode: "",
-    freeShipping: false,
-  });
+  const { product, setProduct } = useProduct();
 
   function handleChange(
-    e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
+    e: React.ChangeEvent<HTMLInputElement>
   ) {
-    const { name, value, type } = e.target;
+    const { name, value, type, checked } = e.target;
 
-    setShipping({
-      ...shipping,
+    setProduct((prev) => ({
+      ...prev,
       [name]:
         type === "checkbox"
-          ? (e.target as HTMLInputElement).checked
-          : value,
-    });
+          ? checked
+          : Number(value),
+    }));
   }
 
   return (
@@ -37,7 +30,7 @@ export default function ProductShipping() {
         type="number"
         name="weight"
         placeholder="Peso (kg)"
-        value={shipping.weight}
+        value={product.weight}
         onChange={handleChange}
       />
 
@@ -46,7 +39,7 @@ export default function ProductShipping() {
         type="number"
         name="height"
         placeholder="Altura (cm)"
-        value={shipping.height}
+        value={product.height}
         onChange={handleChange}
       />
 
@@ -55,7 +48,7 @@ export default function ProductShipping() {
         type="number"
         name="width"
         placeholder="Largura (cm)"
-        value={shipping.width}
+        value={product.width}
         onChange={handleChange}
       />
 
@@ -64,28 +57,9 @@ export default function ProductShipping() {
         type="number"
         name="length"
         placeholder="Comprimento (cm)"
-        value={shipping.length}
+        value={product.length}
         onChange={handleChange}
       />
-
-      <input
-        className="w-full p-3 rounded-xl bg-gray-800 text-white"
-        type="text"
-        name="originZipCode"
-        placeholder="CEP de origem"
-        value={shipping.originZipCode}
-        onChange={handleChange}
-      />
-
-      <label className="flex items-center gap-3 text-white">
-        <input
-          type="checkbox"
-          name="freeShipping"
-          checked={shipping.freeShipping}
-          onChange={handleChange}
-        />
-        Frete grátis
-      </label>
     </div>
   );
 }
