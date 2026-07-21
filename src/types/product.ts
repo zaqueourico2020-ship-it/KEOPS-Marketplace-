@@ -1,3 +1,10 @@
+export interface ProductVariant {
+  color: string;
+  size: string;
+  price: number;
+  stock: number;
+}
+
 export interface Product {
   id?: string;
 
@@ -27,7 +34,11 @@ export interface Product {
 
   promotionalPrice?: number;
 
+  cost?: number;
+
   stock: number;
+
+  minimumStock?: number;
 
   weight?: number;
 
@@ -36,6 +47,14 @@ export interface Product {
   height?: number;
 
   length?: number;
+
+  metaTitle?: string;
+
+  metaDescription?: string;
+
+  keywords?: string;
+
+  variants?: ProductVariant[];
 
   featured: boolean;
 
