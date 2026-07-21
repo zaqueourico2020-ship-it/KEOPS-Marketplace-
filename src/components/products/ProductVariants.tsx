@@ -1,62 +1,56 @@
 "use client";
 
-import { useState } from "react";
-
-interface Variant {
-  id: number;
-  color: string;
-  size: string;
-  price: string;
-  stock: string;
-}
+import { useProduct } from "@/context/ProductContext";
 
 export default function ProductVariants() {
-  const [variants, setVariants] = useState<Variant[]>([
-    {
-      id: 1,
-      color: "",
-      size: "",
-      price: "",
-      stock: "",
-    },
-  ]);
+  const { product, setProduct } = useProduct();
 
-  function handleChange(
-    id: number,
-    field: keyof Variant,
-    value: string
-  ) {
-    setVariants((prev) =>
-      prev.map((variant) =>
-        variant.id === id
-          ? { ...variant, [field]: value }
-          : variant
-      )
-    );
+  function handleChange(index: number, field: string, value: string) {
+    const variants = [...((product as any).variants || [])];
+
+    variants[index] = {
+      ...variants[index],
+      [field]: value,
+    };
+
+    setProduct((prev: any) => ({
+      ...prev,
+      variants,
+    }));
   }
 
   function addVariant() {
-    setVariants((prev) => [
+    setProduct((prev: any) => ({
       ...prev,
-      {
-        id: Date.now(),
-        color: "",
-        size: "",
-        price: "",
-        stock: "",
-      },
-    ]);
+      variants: [
+        ...(prev.variants || []),
+        {
+          color: "",
+          size: "",
+          price: 0,
+          stock: 0,
+        },
+      ],
+    }));
   }
 
-  function removeVariant(id: number) {
-    setVariants((prev) => prev.filter((variant) => variant.id !== id));
+  function removeVariant(index: number) {
+    const variants = [...((product as any).variants || [])];
+    variants.splice(index, 1);
+
+    setProduct((prev: any) => ({
+      ...prev,
+      variants,
+    }));
   }
+
+  const variants = (product as any).variants || [];
 
   return (
     <div className="bg-gray-900 border border-gray-800 rounded-2xl p-6 space-y-6">
       <div className="flex items-center justify-between">
         <h2 className="text-2xl font-bold text-white">
-          Variações do Produto
+          Variações
         </h2>
 
         <button
@@ -64,13 +58,13 @@ export default function ProductVariants() {
           onClick={addVariant}
           className="bg-purple-600 hover:bg-purple-700 text-white px-4 py-2 rounded-xl"
         >
-          + Adicionar
+          + Nova Variação
         </button>
       </div>
 
-      {variants.map((variant) => (
+      {variants.map((variant: any, index: number) => (
         <div
-          key={variant.id}
+          key={index}
           className="border border-gray-700 rounded-xl p-4 space-y-4"
         >
           <input
@@ -78,7 +72,7 @@ export default function ProductVariants() {
             placeholder="Cor"
             value={variant.color}
             onChange={(e) =>
-              handleChange(variant.id, "color", e.target.value)
+              handleChange(index, "color", e.target.value)
             }
           />
 
@@ -87,7 +81,7 @@ export default function ProductVariants() {
             placeholder="Tamanho"
             value={variant.size}
             onChange={(e) =>
-              handleChange(variant.id, "size", e.target.value)
+              handleChange(index, "size", e.target.value)
             }
           />
 
@@ -97,7 +91,7 @@ export default function ProductVariants() {
             placeholder="Preço"
             value={variant.price}
             onChange={(e) =>
-              handleChange(variant.id, "price", e.target.value)
+              handleChange(index, "price", e.target.value)
             }
           />
 
@@ -107,16 +101,16 @@ export default function ProductVariants() {
             placeholder="Estoque"
             value={variant.stock}
             onChange={(e) =>
-              handleChange(variant.id, "stock", e.target.value)
+              handleChange(index, "stock", e.target.value)
             }
           />
 
           <button
             type="button"
-            onClick={() => removeVariant(variant.id)}
+            onClick={() => removeVariant(index)}
             className="bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded-xl"
           >
-            Remover Variação
+            Remover
           </button>
         </div>
       ))}
