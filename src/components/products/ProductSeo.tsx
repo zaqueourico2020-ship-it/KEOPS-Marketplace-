@@ -1,22 +1,19 @@
 "use client";
 
-import { useState } from "react";
+import { useProduct } from "@/context/ProductContext";
 
 export default function ProductSeo() {
-  const [seo, setSeo] = useState({
-    slug: "",
-    metaTitle: "",
-    metaDescription: "",
-    keywords: "",
-  });
+  const { product, setProduct } = useProduct();
 
   function handleChange(
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) {
-    setSeo({
-      ...seo,
-      [e.target.name]: e.target.value,
-    });
+    const { name, value } = e.target;
+
+    setProduct((prev) => ({
+      ...prev,
+      [name]: value,
+    }));
   }
 
   return (
@@ -29,8 +26,8 @@ export default function ProductSeo() {
         className="w-full p-3 rounded-xl bg-gray-800 text-white"
         type="text"
         name="slug"
-        placeholder="Slug (ex: iphone-16-pro-256gb)"
-        value={seo.slug}
+        placeholder="Slug"
+        value={product.slug}
         onChange={handleChange}
       />
 
@@ -38,8 +35,8 @@ export default function ProductSeo() {
         className="w-full p-3 rounded-xl bg-gray-800 text-white"
         type="text"
         name="metaTitle"
-        placeholder="Título para SEO"
-        value={seo.metaTitle}
+        placeholder="Título SEO"
+        value={product.metaTitle}
         onChange={handleChange}
       />
 
@@ -48,7 +45,7 @@ export default function ProductSeo() {
         rows={4}
         name="metaDescription"
         placeholder="Meta descrição"
-        value={seo.metaDescription}
+        value={product.metaDescription}
         onChange={handleChange}
       />
 
@@ -56,8 +53,8 @@ export default function ProductSeo() {
         className="w-full p-3 rounded-xl bg-gray-800 text-white"
         type="text"
         name="keywords"
-        placeholder="Palavras-chave (separadas por vírgula)"
-        value={seo.keywords}
+        placeholder="Palavras-chave"
+        value={product.keywords}
         onChange={handleChange}
       />
     </div>
