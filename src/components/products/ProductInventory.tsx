@@ -1,27 +1,25 @@
 "use client";
 
-import { useState } from "react";
+import { useProduct } from "@/context/ProductContext";
 
 export default function ProductInventory() {
-  const [inventory, setInventory] = useState({
-    stock: "",
-    minimumStock: "",
-    reservedStock: "",
-    sku: "",
-    barcode: "",
-  });
+  const { product, setProduct } = useProduct();
 
   function handleChange(e: React.ChangeEvent<HTMLInputElement>) {
-    setInventory({
-      ...inventory,
-      [e.target.name]: e.target.value,
-    });
+    const { name, value } = e.target;
+
+    setProduct((prev) => ({
+      ...prev,
+      [name]:
+        name === "sku" || name === "barcode"
+          ? value
+          : Number(value),
+    }));
   }
 
-  const currentStock = Number(inventory.stock) || 0;
-  const minimumStock = Number(inventory.minimumStock) || 0;
-
-  const lowStock = currentStock <= minimumStock;
+  const lowStock =
+    product.stock <= product.minimumStock &&
+    product.stock > 0;
 
   return (
     <div className="bg-gray-900 border border-gray-800 rounded-2xl p-6 space-y-5">
@@ -31,51 +29,46 @@ export default function ProductInventory() {
 
       <input
         className="w-full p-3 rounded-xl bg-gray-800 text-white"
-        placeholder="Quantidade em estoque"
         type="number"
         name="stock"
-        value={inventory.stock}
+        placeholder="Quantidade em estoque"
+        value={product.stock}
         onChange={handleChange}
       />
 
       <input
         className="w-full p-3 rounded-xl bg-gray-800 text-white"
-        placeholder="Estoque mínimo"
         type="number"
         name="minimumStock"
-        value={inventory.minimumStock}
+        placeholder="Estoque mínimo"
+        value={product.minimumStock}
         onChange={handleChange}
       />
 
       <input
         className="w-full p-3 rounded-xl bg-gray-800 text-white"
-        placeholder="Estoque reservado"
-        type="number"
-        name="reservedStock"
-        value={inventory.reservedStock}
-        onChange={handleChange}
-      />
-
-      <input
-        className="w-full p-3 rounded-xl bg-gray-800 text-white"
-        placeholder="SKU"
         name="sku"
-        value={inventory.sku}
+        placeholder="SKU"
+        value={product.sku}
         onChange={handleChange}
       />
 
       <input
         className="w-full p-3 rounded-xl bg-gray-800 text-white"
-        placeholder="Código de barras (EAN)"
         name="barcode"
-        value={inventory.barcode}
+        placeholder="Código de barras (EAN)"
+        value={product.barcode}
         onChange={handleChange}
       />
 
       <div className="bg-gray-800 rounded-xl p-4 text-white">
         <p>
           Status:
-          <strong className={lowStock ? "text-red-400" : "text-green-400"}>
+          <strong
+            className={
+              lowStock ? "text-red-400" : "text-green-400"
+            }
+          >
             {" "}
             {lowStock ? "Estoque Baixo" : "Estoque Normal"}
           </strong>
