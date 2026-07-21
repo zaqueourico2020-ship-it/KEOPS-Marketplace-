@@ -112,21 +112,52 @@ export default function ProductPage() {
     <div>
 
       <p className="font-semibold text-green-600">
-        Em estoque
-      </p>
+  Em estoque
+</p>
 
-      <h1 className="mt-2 text-4xl font-bold">
-        {product.name}
-      </h1>
+<h1 className="mt-3 text-4xl font-bold">
+  {product.name}
+</h1>
 
-      <p className="mt-6 text-5xl font-bold text-green-600">
-        R$ {Number(product.price).toFixed(2)}
-      </p>
+<div className="mt-5 flex items-center gap-3">
+  <span className="text-yellow-500 text-xl">
+    ★★★★★
+  </span>
 
-      <p className="mt-2 text-gray-500">
-        ou 12x sem juros
-      </p>
+  <span className="text-gray-600">
+    4.9 (2.548 avaliações)
+  </span>
+</div>
 
+<div className="mt-8">
+
+  <p className="text-2xl text-gray-400 line-through">
+    R$ {(Number(product.price) * 1.2).toFixed(2)}
+  </p>
+
+  <h2 className="text-5xl font-bold text-green-600">
+    R$ {Number(product.price).toFixed(2)}
+  </h2>
+
+  <p className="mt-2 text-gray-600">
+    ou <strong>12x sem juros</strong>
+  </p>
+
+</div>
+
+<div className="mt-8 rounded-2xl bg-white p-6 shadow">
+
+  <div className="flex justify-between">
+    <span>Marca</span>
+    <strong>{product.brand || "KEOPS"}</strong>
+  </div>
+
+  <div className="mt-4 flex justify-between">
+    <span>Categoria</span>
+    <strong>{product.categoryId || "Marketplace"}</strong>
+  </div>
+
+</div>
     </div>
 
   </div>
