@@ -164,8 +164,10 @@ const router = useRouter();
   }}
   className="w-full rounded-2xl bg-purple-600 py-4 text-lg font-bold text-white hover:bg-purple-700 transition"
 >
+  Comprar Agora
+</button>
 
- <AddToCartButton
+<AddToCartButton
   product={{
     ...product,
     quantity,
