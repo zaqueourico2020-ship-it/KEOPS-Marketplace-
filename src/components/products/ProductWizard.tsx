@@ -10,6 +10,7 @@ import ProductShipping from "./ProductShipping";
 import ProductSeo from "./ProductSeo";
 import ProductVariants from "./ProductVariants";
 import ProductStatus from "./ProductStatus";
+import ProductProgress from "./ProductProgress";
 
 const steps = [
   "Informações",
@@ -40,6 +41,12 @@ export default function ProductWizard() {
   return (
     <div className="space-y-6">
 
+      <ProductProgress
+        currentStep={step}
+        totalSteps={steps.length}
+        title={steps[step]}
+      />
+
       <div className="flex flex-wrap gap-2">
         {steps.map((title, index) => (
           <button
@@ -49,7 +56,7 @@ export default function ProductWizard() {
             className={`px-4 py-2 rounded-xl font-semibold transition ${
               step === index
                 ? "bg-purple-600 text-white"
-                : "bg-gray-800 text-gray-300"
+                : "bg-gray-800 text-gray-300 hover:bg-gray-700"
             }`}
           >
             {index + 1}. {title}
@@ -80,9 +87,9 @@ export default function ProductWizard() {
           type="button"
           onClick={nextStep}
           disabled={step === steps.length - 1}
-          className="px-6 py-3 rounded-xl bg-purple-600 text-white disabled:opacity-50"
+          className="px-6 py-3 rounded-xl bg-purple-600 hover:bg-purple-700 text-white disabled:opacity-50"
         >
-          Próximo
+          {step === steps.length - 1 ? "Finalizado" : "Próximo"}
         </button>
       </div>
     </div>
